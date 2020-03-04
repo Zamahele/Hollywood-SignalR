@@ -29,10 +29,14 @@ namespace SignalRDbUpdates.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<BLL.Tournament.Tournament> Tournaments { get; set; }
+        public System.Data.Entity.DbSet<BLL.Tournament.Tournament> Tournament { get; set; }
 
-        public System.Data.Entity.DbSet<BLL.Event.Event> Events { get; set; }
+        public System.Data.Entity.DbSet<BLL.Event.Event> Event { get; set; }
 
         public System.Data.Entity.DbSet<BLL.EventDetailStatus.EventDetailStatus> EventDetailStatus { get; set; }
+
+        public System.Data.Entity.DbSet<BLL.EventDetail.EventDetail> EventDetails { get; set; }
+
+        //public System.Data.Entity.DbSet<Messages> Messages { get; set; }
     }
-}
+}       

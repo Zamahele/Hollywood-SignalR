@@ -11,25 +11,26 @@ using SignalRDbUpdates.Models;
 
 namespace SignalRDbUpdates.Controllers
 {
+    [AuthenticationAccess(Roles = "SuperAdmin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Events
+        // GET: Event
         public ActionResult Index()
         {
-            var events = db.Events.Include(x => x.Tournament);
+            var events = db.Event.Include(x => x.Tournament);
             return View(events.ToList());
         }
 
-        // GET: Events/Details/5
+        // GET: Event/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = db.Event.Find(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -37,14 +38,14 @@ namespace SignalRDbUpdates.Controllers
             return View(@event);
         }
 
-        // GET: Events/Create
+        // GET: Event/Create
         public ActionResult Create()
         {
-            ViewBag.TournamentId = new SelectList(db.Tournaments, "TournamentId", "TournamentName");
+            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Event/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -53,32 +54,32 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
+                db.Event.Add(@event);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TournamentId = new SelectList(db.Tournaments, "TournamentId", "TournamentName", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName", @event.TournamentId);
             return View(@event);
         }
 
-        // GET: Events/Edit/5
+        // GET: Event/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = db.Event.Find(id);
             if (@event == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.TournamentId = new SelectList(db.Tournaments, "TournamentId", "TournamentName", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName", @event.TournamentId);
             return View(@event);
         }
 
-        // POST: Events/Edit/5
+        // POST: Event/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -91,18 +92,18 @@ namespace SignalRDbUpdates.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TournamentId = new SelectList(db.Tournaments, "TournamentId", "TournamentName", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName", @event.TournamentId);
             return View(@event);
         }
 
-        // GET: Events/Delete/5
+        // GET: Event/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = db.Event.Find(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -110,13 +111,13 @@ namespace SignalRDbUpdates.Controllers
             return View(@event);
         }
 
-        // POST: Events/Delete/5
+        // POST: Event/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = db.Events.Find(id);
-            db.Events.Remove(@event);
+            Event @event = db.Event.Find(id);
+            db.Event.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -11,6 +11,7 @@ using SignalRDbUpdates.Models;
 
 namespace SignalRDbUpdates.Controllers
 {
+    [Authorize]
     public class EventDetailStatusController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

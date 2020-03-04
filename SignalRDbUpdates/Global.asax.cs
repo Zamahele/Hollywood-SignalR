@@ -1,9 +1,11 @@
 ﻿using System.Configuration;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using SignalRDbUpdates.Models;
 
 namespace SignalRDbUpdates
 {

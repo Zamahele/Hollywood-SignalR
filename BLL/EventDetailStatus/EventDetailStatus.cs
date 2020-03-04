@@ -6,7 +6,7 @@ namespace BLL.EventDetailStatus
 {
     public class EventDetailStatus
     {
-        [Key]
+        //[Key]
         [DisplayName("Status Id")]
         public int EventDetailStatusId { get; set; }
         [DisplayName("Status")]

@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SignalRDbUpdates.Models;
@@ -17,9 +18,11 @@ namespace SignalRDbUpdates.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager)
+     
+        public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
+            RoleManager = roleManager;
         }
 
         public ApplicationUserManager UserManager {
@@ -32,6 +35,20 @@ namespace SignalRDbUpdates.Controllers
                 _userManager = value;
             }
         }
+
+
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return this._roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set { this._roleManager = value; }
+        }
+
+
+
 
         //
         // GET: /Account/Login
@@ -85,9 +102,15 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+                var role = RoleManager.FindByIdAsync("1").Result;
+
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                
+
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, role.Name);
                     await SignInAsync(user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -434,6 +457,12 @@ namespace SignalRDbUpdates.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -547,6 +576,7 @@ namespace SignalRDbUpdates.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+
         }
         #endregion
     }

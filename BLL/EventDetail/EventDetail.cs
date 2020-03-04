@@ -17,7 +17,7 @@ namespace BLL.EventDetail
         //public int FinishingPosition { get; set; }
         //public int FirstTimer { get; set; }
 
-        [Key]
+        //[Key]
         [Required]
         [DisplayName("Event Detail Id#")]
         public int EventDetailId { get; set; }
