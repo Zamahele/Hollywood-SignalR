@@ -11,7 +11,7 @@ using SignalRDbUpdates.Models;
 
 namespace SignalRDbUpdates.Controllers
 {
-    [AuthenticationAccess(Roles = "SuperAdmin")]
+    [AuthenticationAccess(Roles = "Admin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
