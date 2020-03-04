@@ -28,5 +28,11 @@ namespace SignalRDbUpdates.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<BLL.Tournament.Tournament> Tournaments { get; set; }
+
+        public System.Data.Entity.DbSet<BLL.Event.Event> Events { get; set; }
+
+        public System.Data.Entity.DbSet<BLL.EventDetailStatus.EventDetailStatus> EventDetailStatus { get; set; }
     }
 }
