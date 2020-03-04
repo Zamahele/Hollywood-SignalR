@@ -1,0 +1,40 @@
+﻿@model IEnumerable<BLL.EventDetail.EventDetail>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.EventDetailId)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventDetailName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventDetailOdd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinishingPosition)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDetailId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDetailName)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.EventDetailOdd)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinishingPosition)
+            </td>
+
+        </tr>
+    }
+
+</table>
