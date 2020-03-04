@@ -1,63 +1,87 @@
 ﻿@model IEnumerable<BLL.Event.Event>
 
 @{
-    ViewBag.Title = "Index";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h4 align="center">Events</h4>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="fa fa-plus"></i>
+        New
+    </a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Tournament.TournamentName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventEndDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AutoClose)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tournament.TournamentName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventEndDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AutoClose)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
-        </td>
-    </tr>
-}
-
-</table>
+<div class="wrapper fadeInDown">
+    <div id="formContentDisplay">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tournament)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventDateTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventEndDateTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AutoClose)
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tournament.TournamentId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventEndDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AutoClose)
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.EventId">
+                                        <i class="fa fa-pencil-alt"></i>
+                                        Edit
+                                    </a>
+                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.EventId">
+                                        <i class="fa fa-trash" color="red"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -98,6 +98,8 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            ViewData["LinkedEvents"] = db.Event.Where(x => x.TournamentId == id).ToList();
             Tournament tournament = db.Tournament.Find(id);
             if (tournament == null)
             {
