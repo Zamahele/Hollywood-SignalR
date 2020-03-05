@@ -22,7 +22,7 @@ namespace HollywoodAPI.Data
 
         public DbSet<HollywoodAPI.Model.EventDetailStatus.EventDetailStatus> EventDetailStatus { get; set; }
 
-        public DbSet<HollywoodAPI.Model.EventDetail.EventDetail> EventDetail { get; set; }
+        public DbSet<HollywoodAPI.Model.EventDetail.EventDetail> EventDetails { get; set; }
 
     }
 }

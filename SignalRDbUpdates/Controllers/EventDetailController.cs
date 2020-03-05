@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.UI;
 using BLL;
 using BLL.Event;
 using BLL.EventDetail;
@@ -81,7 +82,7 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Edit("EventDetails", eventDetail, eventDetail.EventDetailStatusId);
+                _context.Edit("EventDetails", eventDetail, eventDetail.EventDetailId);
                 return RedirectToAction("Index");
             }
             ViewBag.EventId = new SelectList(_contextEvent.GetAll("Events"), "EventId", "EventName", eventDetail.EventId);

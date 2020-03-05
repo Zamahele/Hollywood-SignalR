@@ -25,21 +25,29 @@ namespace HollywoodAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDetail>>> GetEventDetail()
         {
-            return await _context.EventDetail.Include(x=>x.Event).Include(c=>c.EventDetailStatus).ToListAsync();
+            return await _context.EventDetails.Include(x=>x.Event).Include(c=>c.EventDetailStatus).ToListAsync();
         }
 
         // GET: api/EventDetails/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EventDetail>> GetEventDetail(int id)
         {
-            var eventDetail = await _context.EventDetail.FindAsync(id);
-
-            if (eventDetail == null)
+            try
             {
-                return NotFound();
-            }
+                var eventDetail = await _context.EventDetails.FindAsync(id);
 
-            return eventDetail;
+                if (eventDetail == null)
+                {
+                    return NotFound();
+                }
+
+                return eventDetail;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         // PUT: api/EventDetails/5
@@ -80,7 +88,7 @@ namespace HollywoodAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<EventDetail>> PostEventDetail(EventDetail eventDetail)
         {
-            _context.EventDetail.Add(eventDetail);
+            _context.EventDetails.Add(eventDetail);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEventDetail", new { id = eventDetail.EventDetailId }, eventDetail);
@@ -90,13 +98,13 @@ namespace HollywoodAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<EventDetail>> DeleteEventDetail(int id)
         {
-            var eventDetail = await _context.EventDetail.FindAsync(id);
+            var eventDetail = await _context.EventDetails.FindAsync(id);
             if (eventDetail == null)
             {
                 return NotFound();
             }
 
-            _context.EventDetail.Remove(eventDetail);
+            _context.EventDetails.Remove(eventDetail);
             await _context.SaveChangesAsync();
 
             return eventDetail;
@@ -104,7 +112,7 @@ namespace HollywoodAPI.Controllers
 
         private bool EventDetailExists(int id)
         {
-            return _context.EventDetail.Any(e => e.EventDetailId == id);
+            return _context.EventDetails.Any(e => e.EventDetailId == id);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SignalRDbUpdates.Models
             using (var connection = new SqlConnection(_connString))
             {
                 connection.Open();
-                using (var command = new SqlCommand(@"SELECT [EventDetailId], [EventDetailName], [EventDetailOdd], [FinishingPosition] FROM [dbo].[EventDetails]", connection))
+                using (var command = new SqlCommand(@"SELECT [EventDetailId] ,[EventDetailName] ,[EventDetailNumber] ,[EventDetailOdd],[FinishingPosition] ,[FirstTimer] FROM [dbo].[EventDetails]", connection))
                 {
                     command.Notification = null;
 
@@ -29,7 +29,7 @@ namespace SignalRDbUpdates.Models
 
                     while (reader.Read())
                     {
-                        messages.Add(item: new BLL.EventDetail.EventDetail { EventDetailId = (int)reader["EventDetailId"], EventDetailName = (string)reader["EventDetailName"], EventDetailOdd = (decimal)reader["EventDetailOdd"], FinishingPosition = (int)reader["FinishingPosition"] });
+                        messages.Add(item: new BLL.EventDetail.EventDetail { EventDetailId = (int)reader["EventDetailId"], EventDetailName = (string)reader["EventDetailName"], EventDetailOdd = (decimal)reader["EventDetailOdd"], FinishingPosition = (int)reader["FinishingPosition"],FirstTimer = (int)reader["FirstTimer"], EventDetailNumber = (int)reader["EventDetailNumber"] });
                     }
                 }
 
