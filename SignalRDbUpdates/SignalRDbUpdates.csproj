@@ -257,7 +257,6 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_MessagesList.cshtml" />
     <Content Include="Views\EventDetail\Index.cshtml" />
     <Content Include="Views\Shared\_Data.cshtml" />
     <Content Include="Views\Tournaments\Create.cshtml" />

@@ -1,7 +1,10 @@
 ﻿using System.Data.Entity;
 using System.Net;
 using System.Web.Mvc;
+using BLL;
+using BLL.Event;
 using BLL.EventDetail;
+using BLL.EventDetailStatus;
 using SignalRDbUpdates.Models;
 
 namespace SignalRDbUpdates.Controllers
@@ -9,7 +12,9 @@ namespace SignalRDbUpdates.Controllers
     [Authorize]
     public class EventDetailController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly DataRepository<Event> _contextEvent = new DataRepository<Event>();
+        private readonly DataRepository<EventDetailStatus> _contextStatus = new DataRepository<EventDetailStatus>();
+        private readonly DataRepository<EventDetail> _context = new DataRepository<EventDetail>();
 
         // GET: EventDetail
         public ActionResult Index()
@@ -21,15 +26,14 @@ namespace SignalRDbUpdates.Controllers
         {
             var messageRepository = new DataRepository();
              return PartialView("_Data", messageRepository.GetAllMessages());
-            //return PartialView("_MessagesList", messageRepository.GetAllMessages());
         }
 
 
         // GET: EventDetails/Create
         public ActionResult Create()
         {
-            ViewBag.EventId = new SelectList(db.Event, "EventId", "EventName");
-            ViewBag.EventDetailStatusId = new SelectList(db.EventDetailStatus, "EventDetailStatusId", "EventDetailStatusName");
+            ViewBag.EventId = new SelectList(_contextEvent.GetAll("Events"), "EventId", "EventName");
+            ViewBag.EventDetailStatusId = new SelectList(_contextStatus.GetAll("EventDetailStatus"), "EventDetailStatusId", "EventDetailStatusName");
             return View();
         }
 
@@ -42,13 +46,12 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.EventDetails.Add(eventDetail);
-                db.SaveChanges();
+                _context.Save("EventDetails", eventDetail);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EventId = new SelectList(db.Event, "EventId", "EventName", eventDetail.EventId);
-            ViewBag.EventDetailStatusId = new SelectList(db.EventDetailStatus, "EventDetailStatusId", "EventDetailStatusName", eventDetail.EventDetailStatusId);
+            ViewBag.EventId = new SelectList(_contextEvent.GetAll("Events"), "EventId", "EventName", eventDetail.EventId);
+            ViewBag.EventDetailStatusId = new SelectList(_contextStatus.GetAll("EventDetailStatus"), "EventDetailStatusId", "EventDetailStatusName", eventDetail.EventDetailStatusId);
             return View(eventDetail);
         }
 
@@ -59,13 +62,13 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EventDetail eventDetail = db.EventDetails.Find(id);
+            EventDetail eventDetail = _context.GetById("EventDetails", id);
             if (eventDetail == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.EventId = new SelectList(db.Event, "EventId", "EventName", eventDetail.EventId);
-            ViewBag.EventDetailStatusId = new SelectList(db.EventDetailStatus, "EventDetailStatusId", "EventDetailStatusName", eventDetail.EventDetailStatusId);
+            ViewBag.EventId = new SelectList(_contextEvent.GetAll("Events"), "EventId", "EventName", eventDetail.EventId);
+            ViewBag.EventDetailStatusId = new SelectList(_contextStatus.GetAll("EventDetailStatus"), "EventDetailStatusId", "EventDetailStatusName", eventDetail.EventDetailStatusId);
             return View(eventDetail);
         }
 
@@ -78,12 +81,11 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(eventDetail).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Edit("EventDetails", eventDetail, eventDetail.EventDetailStatusId);
                 return RedirectToAction("Index");
             }
-            ViewBag.EventId = new SelectList(db.Event, "EventId", "EventName", eventDetail.EventId);
-            ViewBag.EventDetailStatusId = new SelectList(db.EventDetailStatus, "EventDetailStatusId", "EventDetailStatusName", eventDetail.EventDetailStatusId);
+            ViewBag.EventId = new SelectList(_contextEvent.GetAll("Events"), "EventId", "EventName", eventDetail.EventId);
+            ViewBag.EventDetailStatusId = new SelectList(_contextStatus.GetAll("EventDetailStatus"), "EventDetailStatusId", "EventDetailStatusName", eventDetail.EventDetailStatusId);
             return View(eventDetail);
         }
 
@@ -94,7 +96,7 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EventDetail eventDetail = db.EventDetails.Find(id);
+            EventDetail eventDetail = _context.GetById("EventDetails", id);
             if (eventDetail == null)
             {
                 return HttpNotFound();
@@ -107,20 +109,9 @@ namespace SignalRDbUpdates.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EventDetail eventDetail = db.EventDetails.Find(id);
-            db.EventDetails.Remove(eventDetail);
-            db.SaveChanges();
+            var eventDetailId = _context.GetById("EventDetails", id).EventDetailId;
+            _context.Delete("EventDetails", eventDetailId);
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
     }
 }

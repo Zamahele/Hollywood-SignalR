@@ -6,7 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
 using BLL.Event;
+using BLL.EventDetail;
+using BLL.Tournament;
 using SignalRDbUpdates.Models;
 
 namespace SignalRDbUpdates.Controllers
@@ -14,34 +17,21 @@ namespace SignalRDbUpdates.Controllers
     [AuthenticationAccess(Roles = "Admin")]
     public class EventsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly DataRepository<Event> _context = new DataRepository<Event>();
+        private readonly DataRepository<Tournament> _contextTournament = new DataRepository<Tournament>();
+        private readonly DataRepository<EventDetail> _contextEventDetail = new DataRepository<EventDetail>();
 
         // GET: Event
         public ActionResult Index()
         {
-            var events = db.Event.Include(x => x.Tournament);
-            return View(events.ToList());
+            return View(_context.GetAll("Events"));
         }
 
-        // GET: Event/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Event @event = db.Event.Find(id);
-            if (@event == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@event);
-        }
 
         // GET: Event/Create
         public ActionResult Create()
         {
-            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName");
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentName");
             return View();
         }
 
@@ -54,12 +44,11 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Event.Add(@event);
-                db.SaveChanges();
+                _context.Save("Events", @event);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentId", @event.TournamentId);
             return View(@event);
         }
 
@@ -70,12 +59,12 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Event.Find(id);
+            var @event = _context.GetById("Events", id);
             if (@event == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentId", @event.TournamentId);
             return View(@event);
         }
 
@@ -88,11 +77,10 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Edit("Events", @event, @event.EventId);
                 return RedirectToAction("Index");
             }
-            ViewBag.TournamentId = new SelectList(db.Tournament, "TournamentId", "TournamentName", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentId", @event.TournamentId);
             return View(@event);
         }
 
@@ -103,7 +91,8 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Event.Find(id);
+            ViewData["eventDetails"] = _contextEventDetail.GetAll("EventDetails").Where(x => x.EventId == id).ToList();
+            var @event = _context.GetById("Events", id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -116,19 +105,14 @@ namespace SignalRDbUpdates.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = db.Event.Find(id);
-            db.Event.Remove(@event);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            var eventDetails = _contextEventDetail.GetAll("EventDetails").Where(x => x.EventId == id).ToList();
+            foreach (var detail in eventDetails)
             {
-                db.Dispose();
+                _context.Delete("EventDetails", detail.EventDetailId);
+
             }
-            base.Dispose(disposing);
+            _context.Delete("Events", id);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -89,6 +90,8 @@ namespace SignalRDbUpdates.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var list = RoleManager.Roles.ToList();
+            ViewBag.RoleId = new SelectList(list,"id","Name");
             return View();
         }
 
@@ -103,7 +106,7 @@ namespace SignalRDbUpdates.Controllers
             {
                 var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
-                var role = RoleManager.FindByIdAsync("1").Result;
+                var role = RoleManager.FindByIdAsync(model.RoleId.ToString()).Result;
 
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 

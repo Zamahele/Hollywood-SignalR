@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
 using BLL.EventDetailStatus;
 using SignalRDbUpdates.Models;
 
@@ -14,32 +15,18 @@ namespace SignalRDbUpdates.Controllers
     [Authorize]
     public class EventDetailStatusController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly DataRepository<EventDetailStatus> _context = new DataRepository<EventDetailStatus>();
 
         // GET: EventDetailStatus
         public ActionResult Index()
         {
-            return View(db.EventDetailStatus.ToList());
-        }
-
-        // GET: EventDetailStatus/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EventDetailStatus eventDetailStatus = db.EventDetailStatus.Find(id);
-            if (eventDetailStatus == null)
-            {
-                return HttpNotFound();
-            }
-            return View(eventDetailStatus);
+            return View(_context.GetAll("EventDetailStatus"));
         }
 
         // GET: EventDetailStatus/Create
         public ActionResult Create()
         {
+            ViewData["Status"] = new SelectList(new EventDetailStatus().EventDetailStatusNames());
             return View();
         }
 
@@ -52,11 +39,10 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.EventDetailStatus.Add(eventDetailStatus);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                _context.Save("EventDetailStatus", eventDetailStatus);
+                return RedirectToAction(nameof(Index));
             }
-
+            ViewData["Status"] = new SelectList(new EventDetailStatus().EventDetailStatusNames());
             return View(eventDetailStatus);
         }
 
@@ -67,7 +53,8 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EventDetailStatus eventDetailStatus = db.EventDetailStatus.Find(id);
+            ViewData["Status"] = new SelectList(new EventDetailStatus().EventDetailStatusNames(), id);
+            var eventDetailStatus = _context.GetById("EventDetailStatus", id);
             if (eventDetailStatus == null)
             {
                 return HttpNotFound();
@@ -84,8 +71,7 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(eventDetailStatus).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Edit("EventDetailStatus", eventDetailStatus, eventDetailStatus.EventDetailStatusId);
                 return RedirectToAction("Index");
             }
             return View(eventDetailStatus);
@@ -98,7 +84,7 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EventDetailStatus eventDetailStatus = db.EventDetailStatus.Find(id);
+            var eventDetailStatus = _context.GetById("EventDetailStatus", id);
             if (eventDetailStatus == null)
             {
                 return HttpNotFound();
@@ -111,19 +97,10 @@ namespace SignalRDbUpdates.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EventDetailStatus eventDetailStatus = db.EventDetailStatus.Find(id);
-            db.EventDetailStatus.Remove(eventDetailStatus);
-            db.SaveChanges();
+            var eventDetailStatusId = _context.GetById("EventDetailStatus", id).EventDetailStatusId;
+            _context.Delete("EventDetailStatus", eventDetailStatusId);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

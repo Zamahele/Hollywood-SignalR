@@ -1,40 +1,45 @@
 ﻿@model IEnumerable<BLL.EventDetail.EventDetail>
 
+<br/>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create","EventDetail")" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"> Create</i></a>
 </p>
-<table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.EventDetailId)</th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventDetailName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventDetailOdd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FinishingPosition)
-        </th>
+<div class="wrapper fadeInDown">
+    <div id="formContentDisplay">
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.EventDetailId)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventDetailName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventDetailOdd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinishingPosition)
+                </th>
 
-    </tr>
+            </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDetailId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDetailName)
-            </td>
-            <th>
-                @Html.DisplayFor(modelItem => item.EventDetailOdd)
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinishingPosition)
-            </td>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDetailId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDetailName)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.EventDetailOdd)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FinishingPosition)
+                    </td>
 
-        </tr>
-    }
+                </tr>
+            }
 
-</table>
+        </table>
+    </div>
+</div>
