@@ -98,3 +98,12 @@ textarea {
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     /*text-align: center;*/
 }
+
+#deletePadding {
+    border-left-width: 10px;
+    padding-left: 30px;
+}
+
+h5 {
+    padding-left: 10px;
+}
