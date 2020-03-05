@@ -26,7 +26,7 @@ namespace SignalRDbUpdates.Controllers
         // GET: EventDetailStatus/Create
         public ActionResult Create()
         {
-            ViewData["Status"] = new SelectList(new EventDetailStatus().EventDetailStatusNames());
+            ViewBag.EventDetailStatusName = new SelectList(new EventDetailStatus().EventDetailStatusNames());
             return View();
         }
 
@@ -42,7 +42,7 @@ namespace SignalRDbUpdates.Controllers
                 _context.Save("EventDetailStatus", eventDetailStatus);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Status"] = new SelectList(new EventDetailStatus().EventDetailStatusNames());
+            ViewBag.EventDetailStatusName = new SelectList(new EventDetailStatus().EventDetailStatusNames());
             return View(eventDetailStatus);
         }
 
@@ -53,7 +53,7 @@ namespace SignalRDbUpdates.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewData["Status"] = new SelectList(new EventDetailStatus().EventDetailStatusNames(), id);
+            ViewBag.Status= new SelectList(new EventDetailStatus().EventDetailStatusNames(), id);
             var eventDetailStatus = _context.GetById("EventDetailStatus", id);
             if (eventDetailStatus == null)
             {

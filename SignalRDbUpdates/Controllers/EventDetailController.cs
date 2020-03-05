@@ -24,7 +24,7 @@ namespace SignalRDbUpdates.Controllers
 
         public ActionResult GetMessages()
         {
-            var messageRepository = new DataRepository();
+            var messageRepository = new DataRepositoryNotify();
              return PartialView("_Data", messageRepository.GetAllMessages());
         }
 

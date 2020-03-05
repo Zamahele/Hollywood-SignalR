@@ -35,19 +35,14 @@
                 </td>
                 <td>
                     <div class="dropdown">
-                        <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
                             Action
+                            <span class="caret"></span>
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.EventDetailStatusId">
-                                <i class="fa fa-pencil-alt"></i>
-                                Edit
-                            </a>
-                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.EventDetailStatusId">
-                                <i class="fa fa-trash" color="red"></i>
-                                Delete
-                            </a>
-                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Edit","EventDetailStatus",new {id = item.EventDetailStatusId})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
+                            <li><a href="@Url.Action("Delete","EventDetailStatus",new {id = item.EventDetailStatusId})" class=""><i class="glyphicon glyphicon-trash"> Delete</i></a></li>
+                        </ul>
                     </div>
                 </td>
             </tr>

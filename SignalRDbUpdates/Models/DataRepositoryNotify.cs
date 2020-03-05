@@ -6,7 +6,7 @@ using SignalRDbUpdates.Hubs;
 
 namespace SignalRDbUpdates.Models
 {
-    public class DataRepository
+    public class DataRepositoryNotify
     {
         readonly string _connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public IEnumerable<BLL.EventDetail.EventDetail> GetAllMessages()

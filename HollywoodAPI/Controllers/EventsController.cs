@@ -25,7 +25,7 @@ namespace HollywoodAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
         {
-            return await _context.Events.ToListAsync();
+            return await _context.Events.Include(x=>x.Tournament).ToListAsync();
         }
 
         // GET: api/Events/5
