@@ -23,7 +23,13 @@ namespace SignalRDbUpdates.Controllers
         // GET: Tournament
         public ActionResult Index()
         {
-            return View(_context.GetAll("Tournaments").ToList());
+            var response = _context.GetAllJsonResult("Tournaments");
+            if (!response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Errors");
+            }
+            var list = response.Content.ReadAsAsync<IEnumerable<Tournament>>().Result;
+            return View(list);
         }
 
         

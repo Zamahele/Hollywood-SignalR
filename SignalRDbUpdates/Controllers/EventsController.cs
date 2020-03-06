@@ -25,7 +25,13 @@ namespace SignalRDbUpdates.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            return View(_context.GetAll("Events").ToList());
+            var response = _context.GetAllJsonResult("Events");
+            if (!response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Errors");
+            }
+            var list = response.Content.ReadAsAsync<IEnumerable<Event>>().Result;
+            return View(list);
 
         }
 
