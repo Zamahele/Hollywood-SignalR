@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Service", "3.Service", "{9713A499-2371-45B4-8876-A98EA45F6340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HollywoodAPI", "HollywoodAPI\HollywoodAPI.csproj", "{53449948-638D-407E-90B6-D3C1C9F7D37D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HollywoodAPI", "HollywoodAPI\HollywoodAPI.csproj", "{53449948-638D-407E-90B6-D3C1C9F7D37D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

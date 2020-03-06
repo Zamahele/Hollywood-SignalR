@@ -193,9 +193,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MessagesHub.cs" />
-    <Compile Include="Migrations\202003042020020_HollywoodTest.cs" />
-    <Compile Include="Migrations\202003042020020_HollywoodTest.Designer.cs">
-      <DependentUpon>202003042020020_HollywoodTest.cs</DependentUpon>
+    <Compile Include="Migrations\202003060751228_HollywoodTest.cs" />
+    <Compile Include="Migrations\202003060751228_HollywoodTest.Designer.cs">
+      <DependentUpon>202003060751228_HollywoodTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -319,8 +319,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003042020020_HollywoodTest.resx">
-      <DependentUpon>202003042020020_HollywoodTest.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003060751228_HollywoodTest.resx">
+      <DependentUpon>202003060751228_HollywoodTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

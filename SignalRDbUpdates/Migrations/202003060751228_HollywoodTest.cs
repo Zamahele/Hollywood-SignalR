@@ -28,7 +28,7 @@ namespace SignalRDbUpdates.Migrations
                 c => new
                     {
                         TournamentId = c.Int(nullable: false, identity: true),
-                        TournamentName = c.String(),
+                        TournamentName = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.TournamentId);
             

@@ -13,7 +13,7 @@ namespace SignalRDbUpdates.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202003042020020_HollywoodTest"; }
+            get { return "202003060751228_HollywoodTest"; }
         }
         
         string IMigrationMetadata.Source
