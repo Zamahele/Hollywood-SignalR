@@ -20,7 +20,7 @@ namespace SignalRDbUpdates.Models
                     command.Notification = null;
 
                     var dependency = new SqlDependency(command);
-                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+                    dependency.OnChange += new OnChangeEventHandler(Dependency_OnChange);
 
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
@@ -29,7 +29,15 @@ namespace SignalRDbUpdates.Models
 
                     while (reader.Read())
                     {
-                        messages.Add(item: new BLL.EventDetail.EventDetail { EventDetailId = (int)reader["EventDetailId"], EventDetailName = (string)reader["EventDetailName"], EventDetailOdd = (decimal)reader["EventDetailOdd"], FinishingPosition = (int)reader["FinishingPosition"],FirstTimer = (int)reader["FirstTimer"], EventDetailNumber = (int)reader["EventDetailNumber"] });
+                        messages.Add(item: new BLL.EventDetail.EventDetail
+                        {
+                            EventDetailId = (int)reader["EventDetailId"], 
+                            EventDetailName = (string)reader["EventDetailName"], 
+                            EventDetailOdd = (decimal)reader["EventDetailOdd"] ,
+                            FirstTimer = (int)reader["FirstTimer"], 
+                            EventDetailNumber = (int)reader["EventDetailNumber"],
+                            FinishingPosition = !reader.IsDBNull(reader.GetOrdinal("FinishingPosition")) ? (int?)reader["FinishingPosition"] : null
+                        });
                     }
                 }
 
@@ -37,7 +45,7 @@ namespace SignalRDbUpdates.Models
             return messages;
         }
 
-        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        private void Dependency_OnChange(object sender, SqlNotificationEventArgs e)
         {
             if (e.Type == SqlNotificationType.Change)
             {

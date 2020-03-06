@@ -33,9 +33,8 @@ namespace HollywoodAPI.Model.EventDetail
         [Column(TypeName = "decimal(18,4)")]
         public decimal EventDetailOdd { get; set; }
 
-        [Required]
         [DisplayName("Finishing Position")]
-        public int FinishingPosition { get; set; }
+        public int? FinishingPosition { get; set; }
         [Required]
         [DisplayName("First Timer")]
         public int FirstTimer { get; set; }

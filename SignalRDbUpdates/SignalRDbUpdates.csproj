@@ -197,6 +197,18 @@
     <Compile Include="Migrations\202003060751228_HollywoodTest.Designer.cs">
       <DependentUpon>202003060751228_HollywoodTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003060827170_HollywoodTest1.cs" />
+    <Compile Include="Migrations\202003060827170_HollywoodTest1.Designer.cs">
+      <DependentUpon>202003060827170_HollywoodTest1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003060909214_HollywoodTest2.cs" />
+    <Compile Include="Migrations\202003060909214_HollywoodTest2.Designer.cs">
+      <DependentUpon>202003060909214_HollywoodTest2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003060913061_HollywoodTest3.cs" />
+    <Compile Include="Migrations\202003060913061_HollywoodTest3.Designer.cs">
+      <DependentUpon>202003060913061_HollywoodTest3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataRepositoryNotify.cs" />
@@ -321,6 +333,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003060751228_HollywoodTest.resx">
       <DependentUpon>202003060751228_HollywoodTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003060827170_HollywoodTest1.resx">
+      <DependentUpon>202003060827170_HollywoodTest1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003060909214_HollywoodTest2.resx">
+      <DependentUpon>202003060909214_HollywoodTest2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003060913061_HollywoodTest3.resx">
+      <DependentUpon>202003060913061_HollywoodTest3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

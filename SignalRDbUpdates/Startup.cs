@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using System;
+using Microsoft.Owin;
 using Owin;
 using SignalRDbUpdates;
 using SignalRDbUpdates.Models;
@@ -20,5 +21,28 @@ namespace SignalRDbUpdates
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
         }
+
+
+
+        //private static void UpdateDatabase(IAppBuilder app)
+        //{
+        //    using (var serviceScope = app.
+        //        .GetRequiredService<IServiceScopeFactory>()
+        //        .CreateScope())
+        //    {
+        //        using (var context = serviceScope.ServiceProvider.GetService<BookClubDbContext>())
+        //        {
+        //            try
+        //            {
+        //                context.Database.Migrate();
+        //            }
+        //            catch (Exception)
+        //            {
+
+
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
