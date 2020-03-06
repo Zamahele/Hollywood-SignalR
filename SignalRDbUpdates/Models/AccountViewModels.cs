@@ -70,6 +70,7 @@ namespace SignalRDbUpdates.Models
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Role")]
+        [Required]
         public string RoleName { get; set; }
 
     }
