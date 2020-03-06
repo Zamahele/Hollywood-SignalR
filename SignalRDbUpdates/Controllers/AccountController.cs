@@ -19,36 +19,25 @@ namespace SignalRDbUpdates.Controllers
         {
         }
 
-     
         public AccountController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             RoleManager = roleManager;
         }
 
-        public ApplicationUserManager UserManager {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+        private ApplicationUserManager UserManager {
+            get => _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            set => _userManager = value;
         }
 
 
         private ApplicationRoleManager _roleManager;
-        public ApplicationRoleManager RoleManager
+
+        private ApplicationRoleManager RoleManager
         {
-            get
-            {
-                return this._roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
-            }
-            private set { this._roleManager = value; }
+            get => this._roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            set => this._roleManager = value;
         }
-
-
 
 
         //
@@ -110,7 +99,6 @@ namespace SignalRDbUpdates.Controllers
                 var role = RoleManager.FindByNameAsync(model.RoleName).Result;
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 
-
 
                 if (result.Succeeded)
                 {

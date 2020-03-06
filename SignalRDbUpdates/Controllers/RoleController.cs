@@ -8,7 +8,8 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace SignalRDbUpdates.Controllers
 {
-  
+
+    [AuthenticationAccess(Roles = "Admin")]
     public class RoleController : Controller
     {
         private ApplicationRoleManager _roleManager;
@@ -21,17 +22,10 @@ namespace SignalRDbUpdates.Controllers
         //{
         //    this._roleManager = roleManager;
         //}
-
-
-
-        
-        public ApplicationRoleManager RoleManager
+        private ApplicationRoleManager RoleManager
         {
-            get
-            {
-                return this._roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
-            }
-            private set { this._roleManager = value; }
+            get => this._roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            set => this._roleManager = value;
         }
 
         public ActionResult Index()
