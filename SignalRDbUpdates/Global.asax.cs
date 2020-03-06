@@ -21,7 +21,9 @@ namespace SignalRDbUpdates
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalConfiguration.Configure(WebApiConfig.Register);
             //Start SqlDependency with application initialization
-            SqlDependency.Start(connString);
+            var dbContext = new ApplicationDbContext();
+            if (dbContext.Database.Exists())
+                SqlDependency.Start(connString);
         }
 
         protected void Application_End()
