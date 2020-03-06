@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HollywoodAPI.Data;
 using HollywoodAPI.Model.Event;
+using Microsoft.Extensions.Logging;
 
 namespace HollywoodAPI.Controllers
 {
@@ -15,17 +16,27 @@ namespace HollywoodAPI.Controllers
     public class EventsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        readonly ILogger<EventsController> _logger;
 
-        public EventsController(ApplicationDbContext context)
+        public EventsController(ApplicationDbContext context, ILogger<EventsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Events
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
         {
-            return await _context.Events.Include(x=>x.Tournament).ToListAsync();
+            try
+            {
+                return await _context.Events.Include(x=>x.Tournament).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
+                return BadRequest(e.Message);
+            }
         }
 
         // GET: api/Events/5
@@ -36,6 +47,7 @@ namespace HollywoodAPI.Controllers
 
             if (@event == null)
             {
+                _logger.LogError($" Error Code: {NotFound().StatusCode.ToString()}");
                 return NotFound();
             }
 
@@ -50,6 +62,7 @@ namespace HollywoodAPI.Controllers
         {
             if (id != @event.EventId)
             {
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
                 return BadRequest();
             }
 
@@ -63,6 +76,7 @@ namespace HollywoodAPI.Controllers
             {
                 if (!EventExists(id))
                 {
+                    _logger.LogError($" Error Code: {NotFound().StatusCode.ToString()}");
                     return NotFound();
                 }
                 else
@@ -80,10 +94,18 @@ namespace HollywoodAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
-            _context.Events.Add(@event);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Events.Add(@event);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
+                return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
+                return BadRequest(e.Message);
+            }
         }
 
         // DELETE: api/Events/5
@@ -93,6 +115,7 @@ namespace HollywoodAPI.Controllers
             var @event = await _context.Events.FindAsync(id);
             if (@event == null)
             {
+                _logger.LogError($" Error Code: {NotFound().StatusCode.ToString()}");
                 return NotFound();
             }
 

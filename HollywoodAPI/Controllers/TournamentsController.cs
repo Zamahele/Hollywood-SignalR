@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HollywoodAPI.Data;
 using HollywoodAPI.Model.Tournament;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 
 
 namespace HollywoodAPI.Controllers
@@ -17,11 +19,13 @@ namespace HollywoodAPI.Controllers
     [ApiController]
     public class TournamentsController : ControllerBase
     {
+        readonly ILogger<TournamentsController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public TournamentsController(ApplicationDbContext context)
+        public TournamentsController(ApplicationDbContext context,ILogger<TournamentsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Tournaments
@@ -34,8 +38,8 @@ namespace HollywoodAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
+                return BadRequest(e.Message);
             }
         }
 
@@ -47,6 +51,7 @@ namespace HollywoodAPI.Controllers
 
             if (tournament == null)
             {
+                _logger.LogError($" Error Code: {NotFound().StatusCode.ToString()}");
                 return NotFound();
             }
 
@@ -61,6 +66,7 @@ namespace HollywoodAPI.Controllers
         {
             if (id != tournament.TournamentId)
             {
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
                 return BadRequest();
             }
 
@@ -74,6 +80,7 @@ namespace HollywoodAPI.Controllers
             {
                 if (!TournamentExists(id))
                 {
+                    _logger.LogError($" Error Code: {NotFound().StatusCode.ToString()}");
                     return NotFound();
                 }
                 else
@@ -81,7 +88,7 @@ namespace HollywoodAPI.Controllers
                     throw;
                 }
             }
-
+            _logger.LogError($" Error Code: {NoContent().StatusCode.ToString()}");
             return NoContent();
         }
 
@@ -104,8 +111,7 @@ namespace HollywoodAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
             }
 
             //_context.Tournaments.Add(tournament);
@@ -120,6 +126,7 @@ namespace HollywoodAPI.Controllers
             var tournament = await _context.Tournaments.FindAsync(id);
             if (tournament == null)
             {
+                _logger.LogError($" Error Code: {NotFound().StatusCode.ToString()}");
                 return NotFound();
             }
 

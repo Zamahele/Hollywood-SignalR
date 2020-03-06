@@ -6,14 +6,24 @@ namespace BLL
 {
     public class DataRepository<T> 
     {
-        public IEnumerable<T> GetAll(string requestUri) 
+
+
+        public HttpResponseMessage GetAllJsonResult(string requestUri)
+        {
+            var response = GlobalVariables.WebApiClient.GetAsync(requestUri).Result; ;    
+            return response;
+        }
+
+        public IEnumerable<T> GetAll(string requestUri)
         {
             var response = GlobalVariables.WebApiClient.GetAsync(requestUri).Result;
             if (!response.IsSuccessStatusCode)
-                throw new Exception(response.ToString());
+            {
+            }
             var list = response.Content.ReadAsAsync<IEnumerable<T>>().Result;
-            return list;    
-        }   
+            return list;
+
+        }
 
         public T GetById(string requestUri, int? id)
         {

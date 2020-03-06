@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Data.Entity.Migrations.Model;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SignalRDbUpdates.Migrations

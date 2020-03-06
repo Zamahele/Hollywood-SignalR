@@ -15,6 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Service", "3.Service", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HollywoodAPI", "HollywoodAPI\HollywoodAPI.csproj", "{53449948-638D-407E-90B6-D3C1C9F7D37D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.DbScripts", "4.DbScripts", "{97FAA80E-3480-486C-9B83-E0EDB2A1DDB5}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\Scripts\RoleInsert.sql = ..\..\..\Desktop\Scripts\RoleInsert.sql
+		..\..\..\Desktop\Scripts\Tournament_insert.sql = ..\..\..\Desktop\Scripts\Tournament_insert.sql
+		Udate.sql = Udate.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using BLL;
@@ -23,7 +24,13 @@ namespace SignalRDbUpdates.Controllers
         // GET: EventDetailStatus
         public ActionResult Index()
         {
-            return View(_context.GetAll("EventDetailStatus"));
+            var jsonResult = _context.GetAllJsonResult("EventDetailStatus");
+            if (!jsonResult.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Errors");
+            }
+            var list = jsonResult.Content.ReadAsAsync<IEnumerable<EventDetailStatus>>().Result;
+            return View(list);
         }
 
         // GET: EventDetailStatus/Create
