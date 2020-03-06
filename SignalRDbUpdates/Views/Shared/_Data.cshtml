@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<BLL.EventDetail.EventDetail>
 
-<br/>
+<br />
 <p>
     <a href="@Url.Action("Create","EventDetail")" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"> Create</i></a>
 </p>
@@ -31,42 +31,64 @@
 
             @foreach (var item in Model)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDetailId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDetailName)
-            </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDetailId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDetailName)
+                    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDetailNumber)
-            </td>
-            <th>
-                @Html.DisplayFor(modelItem => item.EventDetailOdd)
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinishingPosition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstTimer)
-            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDetailNumber)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.EventDetailOdd)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FinishingPosition)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstTimer)
+                    </td>
 
-            <td>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
-                        Action
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Edit","EventDetail",new {id = item.EventDetailId})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
-                        <li><a href="@Url.Action("Delete","EventDetail",new {id = item.EventDetailId})" class=""><i class="glyphicon glyphicon-trash"> Delete</i></a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
+                                Action
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Edit","EventDetail",new {id = item.EventDetailId})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
+                                <li><a onclick="Delete(@item.EventDetailId)" class=""> <i class="glyphicon glyphicon-trash"> Delete</i></a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
             }
 
         </table>
     </div>
 </div>
+@section scripts
+{
+    <script>
+        $(function() {
+            var successMassage = '@TempData["SuccessfullyNotify"]';
+            if (successMassage != '')
+                alertify.success(successMassage);
+        });
+
+        $(function() {
+            var error = '@TempData["Error"]';
+            if (error != '')
+                alertify.error(error);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Delete', 'Are you sure to delete this record ?', function() {
+                window.location.href = '@Url.Action("Delete","EventDetail")/' + id;
+            },null);
+        }
+    </script>
+}

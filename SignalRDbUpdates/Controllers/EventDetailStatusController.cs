@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BLL;
+using BLL.Event;
+using BLL.EventDetail;
 using BLL.EventDetailStatus;
 using SignalRDbUpdates.Models;
 
@@ -16,6 +18,7 @@ namespace SignalRDbUpdates.Controllers
     public class EventDetailStatusController : Controller
     {
         private readonly DataRepository<EventDetailStatus> _context = new DataRepository<EventDetailStatus>();
+        private readonly DataRepository<EventDetail> _contextEventDel = new DataRepository<EventDetail>();
 
         // GET: EventDetailStatus
         public ActionResult Index()
@@ -40,6 +43,7 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 _context.Save("EventDetailStatus", eventDetailStatus);
+                TempData["SuccessfullyNotify"] = "Added successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.EventDetailStatusName = new SelectList(new EventDetailStatus().EventDetailStatusNames());
@@ -72,33 +76,41 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 _context.Edit("EventDetailStatus", eventDetailStatus, eventDetailStatus.EventDetailStatusId);
+                TempData["SuccessfullyNotify"] = "Updated successfully";
                 return RedirectToAction("Index");
             }
             return View(eventDetailStatus);
         }
 
-        // GET: EventDetailStatus/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var eventDetailStatus = _context.GetById("EventDetailStatus", id);
-            if (eventDetailStatus == null)
-            {
-                return HttpNotFound();
-            }
-            return View(eventDetailStatus);
-        }
+        //// GET: EventDetailStatus/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var eventDetailStatus = _context.GetById("EventDetailStatus", id);
+        //    if (eventDetailStatus == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(eventDetailStatus);
+        //}
 
         // POST: EventDetailStatus/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
         {
             var eventDetailStatusId = _context.GetById("EventDetailStatus", id).EventDetailStatusId;
-            _context.Delete("EventDetailStatus", eventDetailStatusId);
+            var isLinked = _contextEventDel.GetAll("EventDetails").Where(x => x.EventDetailStatusId == id).ToList();
+            if (!isLinked.Any())
+            { 
+                _context.Delete("EventDetailStatus", eventDetailStatusId);
+                TempData["SuccessfullyNotify"] = "Deleted successfully";
+                return RedirectToAction("Index");
+            }
+            TempData["Error"] = "Sorry the status is linked";
             return RedirectToAction("Index");
         }
 

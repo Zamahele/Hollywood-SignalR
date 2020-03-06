@@ -26,7 +26,7 @@ namespace SignalRDbUpdates.Controllers
         public ActionResult GetMessages()
         {
             var messageRepository = new DataRepositoryNotify();
-             return PartialView("_Data", messageRepository.GetAllMessages());
+            return PartialView("_Data", messageRepository.GetAllMessages());
         }
 
 
@@ -91,24 +91,24 @@ namespace SignalRDbUpdates.Controllers
         }
 
         // GET: EventDetails/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EventDetail eventDetail = _context.GetById("EventDetails", id);
-            if (eventDetail == null)
-            {
-                return HttpNotFound();
-            }
-            return View(eventDetail);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    EventDetail eventDetail = _context.GetById("EventDetails", id);
+        //    if (eventDetail == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(eventDetail);
+        //}
 
-        // POST: EventDetails/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        //// POST: EventDetails/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
         {
             var eventDetailId = _context.GetById("EventDetails", id).EventDetailId;
             _context.Delete("EventDetails", eventDetailId);

@@ -42,8 +42,19 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Save("Tournaments", tournament);
-                return RedirectToAction("Index");
+                if (_context.GetAll("Tournaments").FirstOrDefault(x => x.TournamentName == tournament.TournamentName) ==
+                    null)
+                {
+                    _context.Save("Tournaments", tournament);
+                    TempData["SuccessfullyNotify"] = "Added successfully";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Error"] = "Sorry record already existing";
+                    return RedirectToAction("Index");
+
+                }
             }
 
             return View(tournament);
@@ -74,6 +85,7 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 _context.Edit("Tournaments", tournament, tournament.TournamentId);
+                TempData["SuccessfullyNotify"] = "Updated successfully";
                 return RedirectToAction("Index");
             }
             return View(tournament);
@@ -110,6 +122,7 @@ namespace SignalRDbUpdates.Controllers
 
             var tournamentId = _context.GetById("Tournaments", id).TournamentId;
             _context.Delete("Tournaments", tournamentId);
+            TempData["SuccessfullyNotify"] = "Deleted successfully";
             return RedirectToAction("Index");
         }
 

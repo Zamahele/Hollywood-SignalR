@@ -83,7 +83,7 @@ textarea {
     padding: 0px;
     -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-    text-align: center;
+    /*text-align: center;*/
 }
 
 #formContentDisplay {
@@ -104,6 +104,9 @@ textarea {
     padding-left: 30px;
 }
 
-h5 {
+h5{
+    padding-left: 10px;
+}
+h4 {
     padding-left: 10px;
 }

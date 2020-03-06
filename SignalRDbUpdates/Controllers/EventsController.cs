@@ -45,10 +45,11 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 _context.Save("Events", @event);
+                TempData["SuccessfullyNotify"] = "Added successfully";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentId", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentName", @event.TournamentId);
             return View(@event);
         }
 
@@ -64,7 +65,7 @@ namespace SignalRDbUpdates.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentId", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentName", @event.TournamentId);
             return View(@event);
         }
 
@@ -78,9 +79,10 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 _context.Edit("Events", @event, @event.EventId);
+                TempData["SuccessfullyNotify"] = "Updated successfully";
                 return RedirectToAction("Index");
             }
-            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentId", @event.TournamentId);
+            ViewBag.TournamentId = new SelectList(_contextTournament.GetAll("Tournaments"), "TournamentId", "TournamentName", @event.TournamentId);
             return View(@event);
         }
 
@@ -112,6 +114,7 @@ namespace SignalRDbUpdates.Controllers
 
             }
             _context.Delete("Events", id);
+            TempData["SuccessfullyNotify"] = "Deleted successfully";
             return RedirectToAction("Index");
         }
     }

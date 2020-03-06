@@ -8,6 +8,7 @@ namespace BLL.Tournament
         [Key]
         public int TournamentId { get; set; }
         [DisplayName("Tournament Name")]
+        [Required]
         public string TournamentName { get; set; }
     }
 }

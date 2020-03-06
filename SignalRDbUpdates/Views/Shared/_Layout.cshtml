@@ -7,6 +7,8 @@
     <title>@ViewBag.Title - Hollywood</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -23,13 +25,13 @@
             <div class="navbar-collapse collapse">
                 @if (!string.IsNullOrEmpty(User.Identity.GetUserName()))
                 {
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Role", "Index", "Role")</li>
-                    <li>@Html.ActionLink("Status", "Index", "EventDetailStatus")</li>
-                    <li>@Html.ActionLink("Tournament", "Index", "Tournaments")</li>
-                    <li>@Html.ActionLink("Event", "Index", "Events")</li>
-                    <li>@Html.ActionLink("EventDetail", "Index", "EventDetail")</li>
-                </ul>
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Role", "Index", "Role")</li>
+                        <li>@Html.ActionLink("Status", "Index", "EventDetailStatus")</li>
+                        <li>@Html.ActionLink("Tournament", "Index", "Tournaments")</li>
+                        <li>@Html.ActionLink("Event", "Index", "Events")</li>
+                        <li>@Html.ActionLink("EventDetail", "Index", "EventDetail")</li>
+                    </ul>
                 }
                 @Html.Partial("_LoginPartial")
             </div>
@@ -44,7 +46,8 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/alertify.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

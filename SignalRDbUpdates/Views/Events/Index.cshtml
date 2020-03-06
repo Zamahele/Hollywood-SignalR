@@ -77,3 +77,20 @@
         </table>
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+        $(function() {
+            var successMassage = '@TempData["SuccessfullyNotify"]';
+            if (successMassage != '')
+                alertify.success(successMassage);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Delete', 'Are you sure to delete this record ?', function() {
+                window.location.href = '@Url.Action("Delete","Students")/' + id;
+            },null);
+        }
+    </script>
+}

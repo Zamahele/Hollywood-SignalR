@@ -25,12 +25,5 @@ namespace SignalRDbUpdates.Controllers
             return View();
         }
 
-        //public ActionResult GetMessages()
-        //{
-        //    var messageRepository = new MessagesRepository();
-        //    return PartialView("_MessagesList", messageRepository.GetAllMessages());
-        //    //return PartialView("_Data", messageRepository.GetAllMessages());
-        //}
-      
     }
 }

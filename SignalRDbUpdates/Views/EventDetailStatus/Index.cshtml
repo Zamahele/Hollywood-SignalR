@@ -10,44 +10,66 @@
     <a href="@Url.Action("Create","EventDetailStatus")" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"> Create</i></a>
 </p>
 <div class="wrapper fadeInDown">
-<div id="formContentDisplay">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDetailStatusId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDetailStatusName)
-            </th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDetailStatusId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDetailStatusName)
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
-                            Action
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Edit","EventDetailStatus",new {id = item.EventDetailStatusId})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
-                            <li><a href="@Url.Action("Delete","EventDetailStatus",new {id = item.EventDetailStatusId})" class=""><i class="glyphicon glyphicon-trash"> Delete</i></a></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
+    <div id="formContentDisplay">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventDetailStatusId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventDetailStatusName)
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventDetailStatusId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventDetailStatusName)
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
+                                    Action
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Edit","EventDetailStatus",new {id = item.EventDetailStatusId})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
+                                    <li><a onclick="Delete(@item.EventDetailStatusId)" class=""> <i class="glyphicon glyphicon-trash"> Delete</i></a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $(function() {
+            var successMassage = '@TempData["SuccessfullyNotify"]';
+            if (successMassage != '')
+                alertify.success(successMassage);
+        });
+
+        $(function() {
+            var error = '@TempData["Error"]';
+            if (error != '')
+                alertify.error(error);   
+        });
+
+        function Delete(id) {
+            alertify.confirm('Delete', 'Are you sure to delete this record ?', function() {
+                window.location.href = '@Url.Action("Delete","EventDetailStatus")/' + id;
+            },null);
         }
-        </tbody>
-    </table>
-</div>
-</div>
+    </script>
+}

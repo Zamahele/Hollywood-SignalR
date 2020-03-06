@@ -77,6 +77,7 @@ namespace SignalRDbUpdates.Controllers
                 }
                 else
                 {
+                    TempData["Error"] = "Invalid username or password.";
                     ModelState.AddModelError("", "Invalid username or password.");
                 }
             }
@@ -91,7 +92,7 @@ namespace SignalRDbUpdates.Controllers
         public ActionResult Register()
         {
             var list = RoleManager.Roles.ToList();
-            ViewBag.RoleId = new SelectList(list,"id","Name");
+            ViewBag.RoleName = new SelectList(list, "Name", "Name");
             return View();
         }
 
@@ -102,14 +103,14 @@ namespace SignalRDbUpdates.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            var list = RoleManager.Roles.ToList();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-                var role = RoleManager.FindByIdAsync(model.RoleId.ToString()).Result;
-
+                var role = RoleManager.FindByNameAsync(model.RoleName).Result;
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 
+
 
                 if (result.Succeeded)
                 {
@@ -126,10 +127,13 @@ namespace SignalRDbUpdates.Controllers
                 }
                 else
                 {
+                    TempData["Error"] = result.Errors;
+                    ViewBag.RoleName = new SelectList(list, "id", "Name");
                     AddErrors(result);
                 }
             }
-
+            TempData["Error"] = "Error processing your request";
+            ViewBag.RoleName = new SelectList(list, "id", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }

@@ -16,6 +16,13 @@ namespace HollywoodAPI.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Tournament>().HasIndex(x => x.TournamentName).IsUnique();
+            modelBuilder.Entity<EventDetail>().HasIndex(x => x.EventDetailName).IsUnique();
+
+        }
+
         public DbSet<HollywoodAPI.Model.Tournament.Tournament> Tournaments { get; set; }
 
         public DbSet<HollywoodAPI.Model.Event.Event> Events { get; set; }
