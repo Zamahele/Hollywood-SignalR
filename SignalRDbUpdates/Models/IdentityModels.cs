@@ -39,6 +39,5 @@ namespace SignalRDbUpdates.Models
 
         public System.Data.Entity.DbSet<BLL.EventDetail.EventDetail> EventDetails { get; set; }
 
-        //public System.Data.Entity.DbSet<Messages> Messages { get; set; }
     }
 }       
