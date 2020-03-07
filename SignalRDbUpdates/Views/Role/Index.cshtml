@@ -5,7 +5,7 @@
 }
 
 <h4 align="center">List of Roles</h4>
-<hr/>
+<hr />
 <p>
     <a href="@Url.Action("Create","Role")" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"> Create</i></a>
 </p>
@@ -25,24 +25,40 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
-                                Action
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                @*<li><a href="@Url.Action("Edit","Role",new {id = item.Id})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
-                                <li><a href="@Url.Action("Delete","Role",new {id = item.Id})" class=""><i class="glyphicon glyphicon-trash"> Delete</i></a></li>*@
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown">
+                                    Action
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    @*<li><a href="@Url.Action("Edit","Role",new {id = item.Id})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
+                                        <li><a href="@Url.Action("Delete","Role",new {id = item.Id})" class=""><i class="glyphicon glyphicon-trash"> Delete</i></a></li>*@
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
 
                 }
             </tbody>
         </table>
     </div>
 </div>
+@section scripts
+{
+    <script>
+        $(function() {
+            var successMassage = '@TempData["SuccessfullyNotify"]';
+            if (successMassage != '')
+                alertify.success(successMassage);
+        });
+
+        $(function() {
+            var error = '@TempData["Error"]';
+            if (error != '')
+                alertify.error(error);
+        });
+    </script>
+}

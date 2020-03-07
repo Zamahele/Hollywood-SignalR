@@ -42,8 +42,16 @@ namespace SignalRDbUpdates.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(IdentityRole role)
         {
-            await RoleManager.CreateAsync(role);
+            if (!RoleManager.RoleExistsAsync(role.Name).Result)
+            {
+                await RoleManager.CreateAsync(role);
+                TempData["SuccessfullyNotify"] = "Added successfully";
+                return RedirectToAction("Index");
+            }
+            TempData["Error"] = "Sorry record already existing";
             return RedirectToAction("Index");
         }
+
+
     }
 }

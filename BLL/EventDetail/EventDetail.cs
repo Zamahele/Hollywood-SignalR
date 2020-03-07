@@ -43,9 +43,8 @@ namespace BLL.EventDetail
         [DisplayName("Event Detail Number")]
         public int EventDetailNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter three digits  after a comma")]
         [DisplayName("Event Detail Odd")]
-        //[Column(TypeName = "decimal(18.4)")]
         public decimal EventDetailOdd { get; set; }
 
 

@@ -87,7 +87,8 @@
                     yearRange: "-100:+0",
                     dateFormat: 'dd-mm-yy',
                     controlType: 'select',
-                    timeFormat: 'hh:mm TT'
+                    timeFormat: 'hh:mm TT',
+                    minDate: -0
                 });
             });
 
@@ -97,7 +98,8 @@
                     var d = new Date();
                     return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
                 } else {
-                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                    //return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
                 }
             };
         });

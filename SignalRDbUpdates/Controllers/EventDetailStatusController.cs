@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BLL;
@@ -49,8 +50,14 @@ namespace SignalRDbUpdates.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Save("EventDetailStatus", eventDetailStatus);
-                TempData["SuccessfullyNotify"] = "Added successfully";
+                if (!Exist(eventDetailStatus.EventDetailStatusName))
+                {
+                    _context.Save("EventDetailStatus", eventDetailStatus);
+                    TempData["SuccessfullyNotify"] = "Added successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                TempData["Error"] = "Sorry record already existing";
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.EventDetailStatusName = new SelectList(new EventDetailStatus().EventDetailStatusNames());
@@ -89,24 +96,6 @@ namespace SignalRDbUpdates.Controllers
             return View(eventDetailStatus);
         }
 
-        //// GET: EventDetailStatus/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var eventDetailStatus = _context.GetById("EventDetailStatus", id);
-        //    if (eventDetailStatus == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(eventDetailStatus);
-        //}
-
-        // POST: EventDetailStatus/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             var eventDetailStatusId = _context.GetById("EventDetailStatus", id).EventDetailStatusId;
@@ -121,5 +110,9 @@ namespace SignalRDbUpdates.Controllers
             return RedirectToAction("Index");
         }
 
+        public bool Exist (string status)
+        {
+            return _context.GetAll("EventDetailStatus").Any(x => x.EventDetailStatusName == status);
+        }
     }
 }
