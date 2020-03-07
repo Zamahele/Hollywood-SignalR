@@ -9,3 +9,20 @@
         </div>
     </div>
 </div>
+
+
+@section scripts
+{
+    <script>
+        $(function() {
+            var successMassage = '@TempData["SuccessfullyNotify"]';
+            if (successMassage != '')
+                alertify.success(successMassage);
+        });
+        $(function() {
+                var Error = '@TempData["Error"]';
+                if (Error != '')
+                    alertify.error(Error);
+            });
+    </script>
+}

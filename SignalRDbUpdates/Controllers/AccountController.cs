@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -67,7 +68,7 @@ namespace SignalRDbUpdates.Controllers
                 else
                 {
                     TempData["Error"] = "Invalid username or password.";
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", @"Invalid username or password.");
                 }
             }
 
@@ -102,16 +103,24 @@ namespace SignalRDbUpdates.Controllers
 
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, role.Name);
-                    await SignInAsync(user, isPersistent: false);
+                    try
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, role.Name);
+                        await SignInAsync(user, isPersistent: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        TempData["SuccessfullyNotify"] = "You are welcome";
+                        return RedirectToAction("Index", "Home");
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["Error"] = "Error processing your request";
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
