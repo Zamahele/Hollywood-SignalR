@@ -111,7 +111,7 @@ namespace HollywoodAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()}");
+                _logger.LogError($" Error Code: {BadRequest().StatusCode.ToString()} Massage :{e.Message}");
             }
 
             //_context.Tournaments.Add(tournament);
