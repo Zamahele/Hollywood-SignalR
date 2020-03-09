@@ -55,12 +55,8 @@ namespace HollywoodAPI.Controllers
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
                     var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
                     var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
-
-                    //return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                     var generatedToken =new Token{TokenCode = new JwtSecurityTokenHandler().WriteToken(token).ToString()};
                     return generatedToken;
                 }
@@ -75,55 +71,11 @@ namespace HollywoodAPI.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<OkObjectResult> Post(UserInfo userData)   
-        //{
-
-        //    if (userData?.Email != null && userData.Password != null)
-        //    {
-        //        var user = await GetUser(userData.Email, userData.Password);
-
-        //        if (user != null)
-        //        {
-        //            //create claims details based on the user information
-        //            var claims = new[] {
-        //            new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-        //            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
-        //            new Claim("Id", user.UserId.ToString()),
-        //            new Claim("FirstName", user.FirstName),
-        //            new Claim("LastName", user.LastName),
-        //            new Claim("UserName", user.UserName),
-        //            new Claim("Email", user.Email)
-        //           };
-
-        //            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
-        //            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        //            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
-
-        //            //return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-        //            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-        //        }
-        //        else
-        //        {
-        //            return new OkObjectResult("Invalid credentials");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return  new OkObjectResult(BadRequest());
-        //    }
-        //}
-
-
         private async Task<AspNetUsers> GetUser( string userId)
         {
             try
             {
                 return  await _context.AspNetUsers.FirstOrDefaultAsync(x=>x.Id == userId);
-               // return await _context.UserInfo.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
             }
             catch (Exception e)
             {
