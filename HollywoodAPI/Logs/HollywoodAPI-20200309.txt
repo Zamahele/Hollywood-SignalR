@@ -457,3 +457,7 @@ Error Number:207,State:1,Class:16
 2020-03-09T12:24:11.0174069+02:00  [INF] Hosting environment: "Development" (c3307c92)
 2020-03-09T12:24:11.0216852+02:00  [INF] Content root path: "C:\Users\ZJN\Source\Repos\Hollywood-SignalR -01\HollywoodAPI" (b5d60022)
 2020-03-09T12:24:11.0559720+02:00 80000144-0004-fc00-b63f-84710c7967bb [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2020-03-09T12:27:52.9824287+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-03-09T12:27:52.9957080+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-03-09T12:27:52.9977067+02:00  [INF] Content root path: "C:\Users\ZJN\Source\Repos\Hollywood-SignalR -01\HollywoodAPI" (b5d60022)
+2020-03-09T12:27:53.0310601+02:00 800000e8-0000-ff00-b63f-84710c7967bb [WRN] Failed to determine the https port for redirect. (ca76cc21)
