@@ -59,9 +59,12 @@
     <Compile Include="EventDetailStatus\EventDetailStatus.cs" />
     <Compile Include="EventDetail\EventDetail.cs" />
     <Compile Include="Event\Event.cs" />
+    <Compile Include="GenaratedToken.cs" />
+    <Compile Include="ServiceAccessToken.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataRepository.cs" />
+    <Compile Include="Token\Token.cs" />
     <Compile Include="Tournament\Tournament.cs" />
   </ItemGroup>
   <ItemGroup>

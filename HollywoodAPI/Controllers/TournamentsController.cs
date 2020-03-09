@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HollywoodAPI.Data;
 using HollywoodAPI.Model.Tournament;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HollywoodAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TournamentsController : ControllerBase

@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
+using BLL.Token;
+using BLL.Tournament;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -15,7 +21,7 @@ namespace SignalRDbUpdates.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
-
+        private readonly DataRepository<Token> _context = new DataRepository<Token>();
         public AccountController()
         {
         }
@@ -60,20 +66,29 @@ namespace SignalRDbUpdates.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.Email, model.Password);
-                if (user != null)
-                {
-                    await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    TempData["Error"] = "Invalid username or password.";
-                    ModelState.AddModelError("", @"Invalid username or password.");
-                }
+                   if (user != null)
+                   {
+                       await SignInAsync(user, model.RememberMe);
+                       GenarateAccessToken(user);
+                       return RedirectToLocal(returnUrl);
+                   }
+                   else
+                   {
+                       TempData["Error"] = "Invalid username or password.";
+                       ModelState.AddModelError("", @"Invalid username or password.");
+                   }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private bool GenarateAccessToken(ApplicationUser model)
+        {
+            var response = _context.GetToken("Token", model.Id);
+            var getToke = response.Content.ReadAsAsync<Token>().Result;
+            GenaratedToken.Token = getToke.TokenCode;
+            return response.IsSuccessStatusCode;
         }
 
         //

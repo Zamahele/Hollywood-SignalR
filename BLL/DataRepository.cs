@@ -7,6 +7,11 @@ namespace BLL
     public class DataRepository<T> 
     {
 
+        public HttpResponseMessage GetToken(string requestUri, string userName)
+        {
+            var response = ServiceAccessToken.WebApiClient.GetAsync(requestUri + "/" + userName).Result;
+            return response;
+        }
 
         public HttpResponseMessage GetAllJsonResult(string requestUri)
         {

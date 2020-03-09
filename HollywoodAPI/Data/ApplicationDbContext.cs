@@ -8,20 +8,20 @@ using HollywoodAPI.Model.Event;
 using HollywoodAPI.Model.EventDetailStatus;
 using HollywoodAPI.Model.EventDetail;
 
+
 namespace HollywoodAPI.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Tournament>().HasIndex(x => x.TournamentName).IsUnique();
-            modelBuilder.Entity<EventDetail>().HasIndex(x => x.EventDetailName).IsUnique();
-
-        }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
 
         public DbSet<HollywoodAPI.Model.Tournament.Tournament> Tournaments { get; set; }
 
