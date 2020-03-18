@@ -16,40 +16,41 @@
     <script src="/signalr/hubs"></script>
 
     <script type="text/javascript">
-    $(function () {
-        // Declare a proxy to reference the hub.
-        var notifications = $.connection.messagesHub;
+        $(function () {
+            // Declare a proxy to reference the hub.
+            var notifications = $.connection.messagesHub;
 
-        //debugger;
-        // Create a function that the hub can call to broadcast messages.
-        notifications.client.updateMessages = function () {
-            getAllMessages()
-            alertify.success("Records have been refreshed");
-        };
-        // Start the connection.
-        $.connection.hub.start().done(function () {
-            getAllMessages();
+            //debugger;
+            // Create a function that the hub can call to broadcast messages.
+            notifications.client.updateMessages = function () {
+                getAllMessages()
+                alertify.success("Records have been refreshed");
+            };
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                getAllMessages();
 
-        }).fail(function (e) {
-            alert(e);
-        });
-    });
-
-
-    function getAllMessages() {
-        var tbl = $('#messagesTable');
-        $.ajax({
-            url: '/EventDetail/GetMessages',
-            contentType: 'application/html ; charset:utf-8',
-            type: 'GET',
-            dataType: 'html'
-        }).success(function (result) {
-            tbl.empty().append(result);
-        }).error(function () {
-
+            }).fail(function (e) {
+                alert(e);
+            });
         });
 
-        }</script>
+
+        function getAllMessages() {
+            var tbl = $('#messagesTable');
+            $.ajax({
+                url: '/EventDetail/GetMessages',
+                contentType: 'application/html ; charset:utf-8',
+                type: 'GET',
+                dataType: 'html'
+            }).success(function (result) {
+                tbl.empty().append(result);
+            }).error(function () {
+
+            });
+
+        }
+    </script>
 
 }
 

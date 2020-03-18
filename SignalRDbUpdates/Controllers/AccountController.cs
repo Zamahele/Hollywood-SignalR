@@ -69,16 +69,11 @@ namespace SignalRDbUpdates.Controllers
                    if (user != null)
                    {
                        await SignInAsync(user, model.RememberMe);
-                       GenarateAccessToken(user);
-                       return RedirectToLocal(returnUrl);
+                       return !GenarateAccessToken(user) ? RedirectToAction("Index", "Errors") : RedirectToLocal(returnUrl);
                    }
-                   else
-                   {
-                       TempData["Error"] = "Invalid username or password.";
-                       ModelState.AddModelError("", @"Invalid username or password.");
-                   }
+                   TempData["Error"] = "Invalid username or password.";
+                   ModelState.AddModelError("", @"Invalid username or password.");
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

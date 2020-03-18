@@ -60,7 +60,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Edit","EventDetail",new {id = item.EventDetailId})" class=""><i class="glyphicon glyphicon-pencil"> Edit</i></a></li>
-                                <li><a onclick="Delete(@item.EventDetailId)" class=""> <i class="glyphicon glyphicon-trash"> Delete</i></a></li>
+                                <li><a href="@Url.Action("Delete","EventDetail",new {id = item.EventDetailId})" class=""><i class="glyphicon glyphicon-trash"> Delete</i></a></li>
                             </ul>
                         </div>
                     </td>

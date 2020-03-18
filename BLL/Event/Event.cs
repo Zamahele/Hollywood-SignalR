@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using BLL.Validation;
+
 
 namespace BLL.Event
 {
@@ -20,9 +21,11 @@ namespace BLL.Event
         public int EventNumber { get; set; }
         [Required]
         [DisplayName("Event Date Time")]
+        [CompareEventDates("EventEndDateTime", ErrorMessage = "Event Date must be <= Event End Date")]
         public DateTime EventDateTime { get; set; }
 
         [DisplayName("Event End Date Time")]
+        [CompareEventDates("EventDateTime", ErrorMessage = "Event End Date must be >= Event Date")]
         public DateTime?  EventEndDateTime { get; set; }
         [Required]
         [DisplayName("AutoClose")]
